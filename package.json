@@ -1,0 +1,21 @@
+{
+  "name": "desafio-codex-2024-grupo-3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.ts",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Group 3 development",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.3",
+    "tsx": "^4.7.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "typescript": "^5.4.2"
+  }
+}
