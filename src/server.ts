@@ -33,3 +33,14 @@ app.post('/user', async (request: Request, response: Response) => {
 
     return response.status(200).json(user.toJSON);
 })
+
+
+
+app.get('/user', async (request: Request, response: Response) => {
+    // código errado
+    const { id } = request.body;
+
+    const user = new User.findById(id);
+
+    return response.status(200).json(user.toJSON);
+});
