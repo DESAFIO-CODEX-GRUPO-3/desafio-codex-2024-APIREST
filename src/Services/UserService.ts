@@ -3,9 +3,11 @@ import { User, UserBuilder } from "../Entities/User";
 import UserValidationError from "../Exception/UserValidationError";
 import UserNotFoundError from "../Exception/UserNotFoundError";
 import { UserDocument } from "../types/UserTypes";
+import UserAlreadyExistsError from "../Exception/UserAlreadyExistsError";
 
 
 /** A Service responsible for all user features.
+ *  Works in the logic and business rules layer of the software
  * 
  * @author dhouglasbn
  */
@@ -22,6 +24,9 @@ export default class UserService {
 
         const error = userModel.validateSync();
 
+        if (
+            await this.userAlreadyExists(user.getEmail())
+        ) throw new UserAlreadyExistsError();
         if (error) throw new UserValidationError(error.message);
     
         return (await userModel.save()).toJSON();

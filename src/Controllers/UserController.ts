@@ -2,10 +2,10 @@ import { Request, Response } from "express";
 import { UserBuilder } from "../Entities/User";
 import UserService from "../Services/UserService";
 import UserValidationError from "../Exception/UserValidationError";
-import UserAlreadyExistsError from "../Exception/UserAlreadyExistsError";
 
 
-/** A controller responsible for all user business rules
+/** A controller for users
+ * Responsible for intermediate the visualization and model layers.
  * 
  * @author dhouglasbn
  */
@@ -27,10 +27,6 @@ export default class UserController {
                 .setEmail(email)
                 .setPassword(password)
                 .build();
-
-            if (
-                await this.userService.userAlreadyExists(user.getEmail())
-                ) throw new UserAlreadyExistsError();
             
             const userJSON = await this.userService.createUser(user);
             
