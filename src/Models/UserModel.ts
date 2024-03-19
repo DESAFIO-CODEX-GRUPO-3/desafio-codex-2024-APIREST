@@ -38,7 +38,12 @@ const userSchema: Schema = new mongoose.Schema({
             validator: (v: String) => { return v.length >= 6 },
             message: () => 'password must have at least 6 characters.'
         }
-    }
+    },
+    tasks: [
+        {
+            type: Schema.Types.ObjectId, ref: 'Task'
+        }
+    ]
 });
 
 const UserModel = mongoose.model('User', userSchema);
