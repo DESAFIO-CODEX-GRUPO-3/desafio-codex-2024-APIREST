@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 import { JWTSECRET } from "../constants/tokenSecret";
 import UserJWTIsInvalidError from "../Exception/UserJWTIsInvalidError";
 import { OurRequest } from "../types/RequestTypes";
+import tokenBlackListService from "../Services/TokenBlackListService";
 
 
 export async function validateUser(request: Request, response: Response, next: NextFunction) {
@@ -29,12 +30,20 @@ export async function validateUser(request: Request, response: Response, next: N
 export async function validateJWT(request: OurRequest, response: Response, next: NextFunction) {
     try {
         const token = String(request.headers['x-access-token']);
+        const tokenFromBlackList = await tokenBlackListService
+        .findTokenInBlackList(token);
+
+        if (tokenFromBlackList) {
+            throw new UserJWTIsInvalidError();
+        }
+        
         jwt.verify(token, JWTSECRET, (error, decoded: any) => {
             if (error) throw new UserJWTIsInvalidError();
 
             if (decoded && decoded.email) {
                 request.email = decoded.email;
             }
+            
             request.authenticated = true;
             next();
         });

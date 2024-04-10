@@ -4,6 +4,7 @@ import UserValidationError from "../Exception/UserValidationError";
 import userService from "../Services/UserService";
 import jwt from "jsonwebtoken";
 import { JWTSECRET, minutes } from "../constants/tokenSecret";
+import tokenBlackListService from "../Services/TokenBlackListService";
 
 
 /** A controller for users
@@ -53,5 +54,11 @@ export default class UserController {
                 response.status(400).json({ error: error.message }) :
                 response.status(500).json({ error });
         }
+    }
+
+    logout = async (request: Request, response: Response): Promise<Response> => {
+        const token = String(request.headers['x-access-token']);
+        tokenBlackListService.saveTokenInBlackList(token);
+        return response.status(200).end();
     }
 }
