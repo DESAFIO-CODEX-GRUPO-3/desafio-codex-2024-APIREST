@@ -11,7 +11,7 @@ import UserAlreadyExistsError from "../Exception/UserAlreadyExistsError";
  * 
  * @author dhouglasbn
  */
-export default class UserService {
+class UserService {
 
     async createUser(user: User) {
         const userModel = new UserModel({
@@ -46,9 +46,27 @@ export default class UserService {
         .build();
     }
 
+    async getUserByEmail(email: String): Promise<User> {
+        const userFromDB: UserDocument | null = await UserModel.findOne({email: email});
+
+        if (!userFromDB) throw new UserNotFoundError();
+        
+        return new UserBuilder()
+        .setFullName(userFromDB.fullName)
+        .setGender(userFromDB.gender)
+        .setAge(userFromDB.age)
+        .setEmail(userFromDB.email)
+        .setPassword(userFromDB.password)
+        .build();
+    }
+
     async userAlreadyExists(email: String): Promise<Boolean> {
         const existingUser = await UserModel.findOne({ email });
 
         return Boolean(existingUser);
     }
 }
+
+const userService: UserService = new UserService();
+
+export default userService;
