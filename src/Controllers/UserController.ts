@@ -5,6 +5,7 @@ import userService from "../Services/UserService";
 import jwt from "jsonwebtoken";
 import { JWTSECRET, minutes } from "../constants/tokenSecret";
 import tokenBlackListService from "../Services/TokenBlackListService";
+import UserPasswordIsIncorrectError from "../Exception/UserPasswordIsIncorrectError";
 
 
 /** A controller for users
@@ -37,8 +38,10 @@ export default class UserController {
 
     login = async (request: Request, response: Response): Promise<Response> => {
         try {
-            const { email } = request.body;
+            const { email, password } = request.body;
             const user: User = await userService.getUserByEmail(email);
+
+            if (password !== user.getPassword()) throw new UserPasswordIsIncorrectError();
 
             const token = jwt.sign({
                 fullName: user.getFullName(),
