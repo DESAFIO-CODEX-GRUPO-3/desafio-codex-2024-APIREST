@@ -1,9 +1,9 @@
 import { UserModel } from "../Models/UserModel";
 import { User, UserBuilder } from "../Entities/User";
-import UserValidationError from "../Exception/UserValidationError";
-import UserNotFoundError from "../Exception/UserNotFoundError";
+import UserValidationError from "../Exception/User/UserValidationError";
+import UserNotFoundError from "../Exception/User/UserNotFoundError";
 import { UserDocument } from "../types/UserTypes";
-import UserAlreadyExistsError from "../Exception/UserAlreadyExistsError";
+import UserAlreadyExistsError from "../Exception/User/UserAlreadyExistsError";
 
 
 /** A Service responsible for all user features.
@@ -38,6 +38,7 @@ class UserService {
         if (!userFromDB) throw new UserNotFoundError();
         
         return new UserBuilder()
+        .setId(userFromDB._id)
         .setFullName(userFromDB.fullName)
         .setGender(userFromDB.gender)
         .setAge(userFromDB.age)
@@ -49,9 +50,11 @@ class UserService {
     async getUserByEmail(email: String): Promise<User> {
         const userFromDB: UserDocument | null = await UserModel.findOne({email: email});
 
+
         if (!userFromDB) throw new UserNotFoundError();
         
         return new UserBuilder()
+        .setId(userFromDB._id)
         .setFullName(userFromDB.fullName)
         .setGender(userFromDB.gender)
         .setAge(userFromDB.age)

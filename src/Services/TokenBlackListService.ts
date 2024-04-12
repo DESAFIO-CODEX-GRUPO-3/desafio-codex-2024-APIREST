@@ -1,11 +1,11 @@
 import { UserModel } from "../Models/UserModel";
 import { User, UserBuilder } from "../Entities/User";
-import UserValidationError from "../Exception/UserValidationError";
-import UserNotFoundError from "../Exception/UserNotFoundError";
+import UserValidationError from "../Exception/User/UserValidationError";
+import UserNotFoundError from "../Exception/User/UserNotFoundError";
 import { UserDocument } from "../types/UserTypes";
-import UserAlreadyExistsError from "../Exception/UserAlreadyExistsError";
+import UserAlreadyExistsError from "../Exception/User/UserAlreadyExistsError";
 import { BlacklistedTokenModel } from "../Models/BlackListedTokenModel";
-import UserJWTIsInvalidError from "../Exception/UserJWTIsInvalidError";
+import UserJWTIsInvalidError from "../Exception/User/UserJWTIsInvalidError";
 import jwt from "jsonwebtoken";
 import { OurJWTPayload } from "../types/RequestTypes";
 

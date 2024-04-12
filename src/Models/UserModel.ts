@@ -39,9 +39,9 @@ const userSchema: Schema = new mongoose.Schema({
             message: () => 'password must have at least 6 characters.'
         }
     },
-    tasks: [
+    todoLists: [
         {
-            type: Schema.Types.ObjectId, ref: 'Task'
+            type: Schema.Types.ObjectId, ref: 'TodoList'
         }
     ]
 });

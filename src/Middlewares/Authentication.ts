@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import userService from "../Services/UserService";
 import { User } from "../Entities/User";
-import UserValidationError from "../Exception/UserValidationError";
-import UserPasswordIsIncorrectError from "../Exception/UserPasswordIsIncorrectError";
+import UserValidationError from "../Exception/User/UserValidationError";
+import UserPasswordIsIncorrectError from "../Exception/User/UserPasswordIsIncorrectError";
 import jwt from "jsonwebtoken";
 import { JWTSECRET } from "../constants/tokenSecret";
-import UserJWTIsInvalidError from "../Exception/UserJWTIsInvalidError";
+import UserJWTIsInvalidError from "../Exception/User/UserJWTIsInvalidError";
 import { OurRequest } from "../types/RequestTypes";
 import tokenBlackListService from "../Services/TokenBlackListService";
 

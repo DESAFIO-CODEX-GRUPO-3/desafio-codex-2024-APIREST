@@ -1,11 +1,11 @@
 import { Request, Response } from "express";
 import { User, UserBuilder } from "../Entities/User";
-import UserValidationError from "../Exception/UserValidationError";
+import UserValidationError from "../Exception/User/UserValidationError";
 import userService from "../Services/UserService";
 import jwt from "jsonwebtoken";
 import { JWTSECRET, minutes } from "../constants/tokenSecret";
 import tokenBlackListService from "../Services/TokenBlackListService";
-import UserPasswordIsIncorrectError from "../Exception/UserPasswordIsIncorrectError";
+import UserPasswordIsIncorrectError from "../Exception/User/UserPasswordIsIncorrectError";
 
 
 /** A controller for users
