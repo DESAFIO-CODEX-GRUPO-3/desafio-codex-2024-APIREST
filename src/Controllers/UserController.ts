@@ -1,7 +1,11 @@
 import { Request, Response } from "express";
-import { UserBuilder } from "../Entities/User";
-import UserService from "../Services/UserService";
+import { User, UserBuilder } from "../Entities/User";
 import UserValidationError from "../Exception/UserValidationError";
+import userService from "../Services/UserService";
+import jwt from "jsonwebtoken";
+import { JWTSECRET, minutes } from "../constants/tokenSecret";
+import tokenBlackListService from "../Services/TokenBlackListService";
+import UserPasswordIsIncorrectError from "../Exception/UserPasswordIsIncorrectError";
 
 
 /** A controller for users
@@ -10,12 +14,6 @@ import UserValidationError from "../Exception/UserValidationError";
  * @author dhouglasbn
  */
 export default class UserController {
-    private userService: UserService;
-
-    constructor() {
-        this.userService = new UserService();
-    }
-
     createUser = async (request: Request, response: Response): Promise<Response> => {
         try {
             const { fullName, gender, age, email, password } = request.body;
@@ -28,7 +26,7 @@ export default class UserController {
                 .setPassword(password)
                 .build();
             
-            const userJSON = await this.userService.createUser(user);
+            const userJSON = await userService.createUser(user);
             
             return response.status(201).json(userJSON);
         } catch (error) {
@@ -36,5 +34,34 @@ export default class UserController {
                 response.status(400).json({ error: error.message }) :
                 response.status(500).json({ error });
         }
+    }
+
+    login = async (request: Request, response: Response): Promise<Response> => {
+        try {
+            const { email, password } = request.body;
+            const user: User = await userService.getUserByEmail(email);
+
+            if (password !== user.getPassword()) throw new UserPasswordIsIncorrectError();
+
+            const token = jwt.sign({
+                fullName: user.getFullName(),
+                gender: user.getGender(),
+                age: user.getAge(),
+                email: user.getEmail(),
+                password: user.getPassword()
+            }, JWTSECRET, { expiresIn: 20 * minutes });
+
+            return response.status(200).json({auth: true, token});
+        } catch (error) {
+            return error instanceof UserValidationError ?
+                response.status(400).json({ error: error.message }) :
+                response.status(500).json({ error });
+        }
+    }
+
+    logout = async (request: Request, response: Response): Promise<Response> => {
+        const token = String(request.headers['x-access-token']);
+        tokenBlackListService.saveTokenInBlackList(token);
+        return response.status(200).end();
     }
 }
