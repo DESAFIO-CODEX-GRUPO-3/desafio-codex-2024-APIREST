@@ -3,7 +3,7 @@ import TodoListNotOwnerError from "../Exception/TodoList/TodoListNotOwnerError";
 import TodoListValidationError from "../Exception/TodoList/TodoListValidationError";
 import TodoListNotFoundError from "../Exception/TodoList/UserJWTIsInvalidError";
 import { TodoListModel } from "../Models/TodoListModel";
-import { TodoListDocument } from "../types/TodoListTypes";
+import { TodoListDocument, TodoListObject } from "../types/TodoListTypes";
 
 
 class TodoListService {
@@ -42,9 +42,26 @@ class TodoListService {
         );
     }
 
+    async getAllUserLists(id: String): Promise<TodoListObject[]> {
+        
+        const todoLists: TodoListDocument[] | null = await TodoListModel.find({user: id});
+        
+        if (!todoLists) throw new TodoListNotFoundError();
+        
+        return todoLists.map((list: TodoListDocument) => {
+            return {
+                _id: list._id,
+                title: list.title,
+                tasks: list.tasks,
+                user: list.user,
+                updatedAt: list.updatedAt
+            };
+        });
+    }
+
     async getTodoListById(id: String): Promise<TodoList> {
         
-        const todolistFromDB: TodoListDocument | null = await TodoListModel.findById(id);
+        const todolistFromDB: TodoListDocument | null = await TodoListModel.findById(id.valueOf());
         
         if (!todolistFromDB) throw new TodoListNotFoundError();
         

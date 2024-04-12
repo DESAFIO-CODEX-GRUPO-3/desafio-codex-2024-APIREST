@@ -50,6 +50,38 @@ export default class TodoListController {
         }
     }
 
+    getAll = async (request: OurRequest, response: Response): Promise<Response> => {
+        try {
+            const email = String(request.email);
+
+            const user = await userService.getUserByEmail(email);
+            const lists = await todoListService.getAllUserLists(user.getId());
+
+            return response.status(200).json(lists);
+        } catch (error) {
+            return error instanceof TodoListValidationError ?
+                response.status(400).json({ error: error.message }) :
+                response.status(500).json({ error });
+        }
+    }
+    
+    getById = async (request: OurRequest, response: Response): Promise<Response> => {
+        try {
+            const { id } = request.params;
+            const email = String(request.email);
+
+            const user = await userService.getUserByEmail(email);
+            const list = await todoListService.getTodoListById(id);
+            await todoListService.isTodoListOwner(list, user.getId());
+            
+            return response.status(200).json(list);
+        } catch (error) {
+            return error instanceof TodoListValidationError ?
+                response.status(400).json({ error: error.message }) :
+                response.status(500).json({ error });
+        }
+    }
+
     delete = async (request: OurRequest, response: Response): Promise<Response> => {
         try {
             const { id } = request.params;

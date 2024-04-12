@@ -6,18 +6,21 @@ class TodoList {
     private title: String;
     private tasks: Task[];
     private userId: String;
+    private updatedAt: Date;
 
     constructor(builder: TodoListBuilder) {
         this.id = builder.id;
         this.title = builder.title;
         this.tasks = builder.tasks;
         this.userId = builder.userId;
+        this.updatedAt = builder.updatedAt;
     }
 
     public getId(): String { return this.id; }
     public getTitle(): String { return this.title; }
     public getTasks(): Task[] { return this.tasks; }
     public getUserId(): String { return this.userId; }
+    public getUpdatedAt(): Date { return this.updatedAt; }
 
     public setTitle(title: String): void { this.title = title; }
 }
@@ -27,12 +30,14 @@ class TodoListBuilder {
     title: String;
     tasks: Task[];
     userId: String;
+    updatedAt: Date;
 
     constructor() {
         this.id = "";
         this.title = "";
         this.tasks = [];
         this.userId = "";
+        this.updatedAt = new Date();
     }
 
     public setId(id: String): TodoListBuilder {
@@ -52,6 +57,11 @@ class TodoListBuilder {
 
     public setUserId(userId: String): TodoListBuilder {
         this.userId = userId;
+        return this;
+    }
+
+    public setUpdatedAt(updatedAt: Date): TodoListBuilder {
+        this.updatedAt = updatedAt;
         return this;
     }
 

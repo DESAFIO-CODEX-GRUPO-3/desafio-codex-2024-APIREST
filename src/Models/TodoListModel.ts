@@ -14,7 +14,7 @@ const todoListSchema: Schema = new mongoose.Schema({
         ref: 'User',
         required: [true, 'TodoList requires an User.']
 }
-});
+}, { timestamps: true });
 
 const TodoListModel = mongoose.model('TodoList', todoListSchema);
 

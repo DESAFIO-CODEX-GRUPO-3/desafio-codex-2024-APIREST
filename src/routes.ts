@@ -13,6 +13,8 @@ routes.post('/user/login', validateUser, userController.login);
 routes.post('/logout', validateJWT, userController.logout);
 
 routes.post('/todolist', validateJWT, todoListController.create);
+routes.get('/todolist', validateJWT, todoListController.getAll);
+routes.get('/todolist/:id', validateJWT, todoListController.getById);
 routes.put('/todolist/:id', validateJWT, todoListController.update);
 routes.delete('/todolist/:id', validateJWT, todoListController.delete);
 
