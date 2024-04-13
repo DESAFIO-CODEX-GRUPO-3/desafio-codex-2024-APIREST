@@ -13,6 +13,11 @@ const taskSchema: Schema = new mongoose.Schema({
         type: Boolean,
         required: true
     },
+    todoList: {
+        type: Schema.Types.ObjectId,
+        ref: 'TodoList',
+        required: [true, 'Task requires a TodoList.']
+    }
 }, { timestamps: true });
 
 const TaskModel = mongoose.model('Task', taskSchema);

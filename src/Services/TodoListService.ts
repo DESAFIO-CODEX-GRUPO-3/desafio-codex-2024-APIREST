@@ -1,7 +1,7 @@
 import { TodoList, TodoListBuilder } from "../Entities/TodoList";
 import TodoListNotOwnerError from "../Exception/TodoList/TodoListNotOwnerError";
 import TodoListValidationError from "../Exception/TodoList/TodoListValidationError";
-import TodoListNotFoundError from "../Exception/TodoList/UserJWTIsInvalidError";
+import TodoListNotFoundError from "../Exception/TodoList/TodoListNotFoundError";
 import { TodoListModel } from "../Models/TodoListModel";
 import { TodoListDocument, TodoListObject } from "../types/TodoListTypes";
 
