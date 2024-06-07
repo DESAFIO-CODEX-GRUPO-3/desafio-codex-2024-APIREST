@@ -23,3 +23,15 @@ Esta API permite o cadastro, login e logout de usuários, além de fornecer um C
 2. Vá para o diretório apropriado: `cd desafio-codex-2024-APIREST`<br />
 3. Execute `yarn` para instalar as dependências<br />
 4. Execute a api: `yarn dev`
+
+## Contribuição
+
+Contribuições são bem-vindas! Por favor, abra um pull request ou relate um problema.
+
+## Licença
+
+Este projeto está licenciado sob a Licença MIT. Veja o arquivo [LICENSE](https://opensource.org/licenses/MIT) para mais detalhes.
+
+## Contato
+
+Para mais informações, entre em contato pelo email: [dhouglasbn@gmail.com](mailto:dhouglasbn@gmail.com)
